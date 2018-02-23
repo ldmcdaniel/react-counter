@@ -7,17 +7,20 @@ class App extends Component {
     this.state = {
       counterValue: 0,
       countBy: 1,
+      buttonTextVisible: false,
     }
   }
   render() {
-    const { counterValue, countBy } = this.state;
+    const { counterValue, countBy, buttonTextVisible } = this.state;
     const incrementCounter = () => {
       const newValue = counterValue + countBy;
       this.setState({counterValue: newValue});
+      hideButtonText();
     }
     const decrementCounter = () => {
       const newValue = counterValue - countBy;
       this.setState({counterValue: newValue});
+      hideButtonText();
     }
     const incrementCountBy = () => {
       const newValue = countBy + 1;
@@ -33,8 +36,17 @@ class App extends Component {
         alert("You can't decrement below 1 and still count by.");
       }
     }
+    const toggleButtonText = () => {
+      this.setState({buttonTextVisible: !buttonTextVisible});
+    }
+    const hideButtonText = () => {
+      if(buttonTextVisible) {
+        toggleButtonText();
+      }
+    }
     const resetCounter = () => {
       this.setState({counterValue: 0});
+      hideButtonText();
     }
     return (
       <div className="App">
@@ -54,7 +66,7 @@ class App extends Component {
         </div>
         <div>
           <button onClick={incrementCounter}>+</button>
-          <h3>{counterValue}</h3>
+          <h3>{countBy} x {counterValue/countBy} = <span onClick={toggleButtonText}>{buttonTextVisible ? counterValue : '?'}</span></h3>
           <button onClick={decrementCounter}>-</button>
         </div>
         <button onClick={resetCounter}>Reset Counter</button>
